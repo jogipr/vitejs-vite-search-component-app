@@ -65,9 +65,11 @@ button:focus-visible {
   }
 }
 
+
 .search-container {
   width: 100%;
   position: relative;
+  height: 40vh;
 }
 
 .search-container > div {

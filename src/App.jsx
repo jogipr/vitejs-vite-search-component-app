@@ -1,49 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { ChildComponentExposedFeature } from './components/ChildComponentExposedFeature';
+import { Pill } from './components/Pill'
+import { SearchList } from './components/SearchList'
 import './App.css';
-
-const Pill = ({ selectedResult }) => {
-  return (
-    <div className="pills-container">
-      {selectedResult?.map((selection) => {
-        return (
-          <span className="pill">
-            {selection}
-            <span className="close">&#10006;</span>
-          </span>
-        );
-      })}
-    </div>
-  );
-};
-
-const SearchList = ({ searchResult, handleSelection }) => {
-  return (
-    <div className="search-list-container">
-      <ul className="search-list">
-        {searchResult?.map((result) => {
-          return (
-            <li
-              key={result.id}
-              className="search-list-item"
-              onClick={() => handleSelection(result)}
-            >
-              <img src={result.image} />
-              <span>
-                {' '}
-                {result.lastName} {result.firstName}
-              </span>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
-};
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [selectedResult, setSelectedResult] = useState([]);
+  const refExample = useRef()
 
   useEffect(() => {
     const getUsers = async () => {
@@ -68,6 +33,13 @@ function App() {
     setSearchResult([]);
   };
 
+  const handleClickMe = () => {
+    if (refExample.current) {
+      console.log(refExample.current);
+      refExample.current.handleClickMe();
+    }
+  }
+
   return (
     <>
       <header>Search Component</header>
@@ -88,6 +60,11 @@ function App() {
             handleSelection={handleSelection}
           />
         )}
+      </div>
+      <div className='ref-conatiner'>
+        <div>Ref and useImperativeHandle Exmaple</div>
+        <button onClick={handleClickMe}>Parent Component Button</button>
+        <ChildComponentExposedFeature ref={refExample} />
       </div>
     </>
   );
